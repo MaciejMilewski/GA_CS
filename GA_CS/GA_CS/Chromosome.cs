@@ -9,8 +9,8 @@ namespace GA_CS
 {
     public class Chromosome
     {
-        public Decimal Fitness { get; set; }
         public Decimal[] Genes = new Decimal[2];
+        public Decimal Fitness { get; set; }
 
         public Chromosome(Decimal gene_1, Decimal gene_2)
         {

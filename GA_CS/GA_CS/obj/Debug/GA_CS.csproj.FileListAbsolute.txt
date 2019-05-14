@@ -5,3 +5,7 @@ C:\Users\macie\source\repos\GA_CS\GA_CS\obj\Debug\GA_CS.csprojAssemblyReference.
 C:\Users\macie\source\repos\GA_CS\GA_CS\obj\Debug\GA_CS.csproj.CoreCompileInputs.cache
 C:\Users\macie\source\repos\GA_CS\GA_CS\obj\Debug\GA_CS.exe
 C:\Users\macie\source\repos\GA_CS\GA_CS\obj\Debug\GA_CS.pdb
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.csprojAssemblyReference.cache
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.csproj.CoreCompileInputs.cache
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.exe
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.pdb
