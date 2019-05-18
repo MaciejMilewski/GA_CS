@@ -10,20 +10,20 @@ namespace GA_CS
 
     public class GeneticAlgorithm
     {
-        public Decimal PopulationSize { get; set; }
-        public Decimal CrossoverRate { get; set; }
-        public Decimal MutationrRate { get; set; }
-        public Decimal ElitismRate { get; set; }
+        public double PopulationSize { get; set; }
+        public double CrossoverRate { get; set; }
+        public double MutationrRate { get; set; }
+        public double ElitismRate { get; set; }
 
         public int Iterations { get; set; }
 
         public f fitnessFunction;
-        public Decimal lowerLimit { get; set; }
-        public Decimal upperLimit { get; set; }
+        public double lowerLimit { get; set; }
+        public double upperLimit { get; set; }
 
-        public Decimal bestFitness { get; set; }
+        public double bestFitness { get; set; }
 
-        public GeneticAlgorithm (Decimal popSize, Decimal crossoverRate, Decimal mutationRate, Decimal elitismRate, int iterations, f f1, Decimal lowerBound, Decimal upperBound)
+        public GeneticAlgorithm (double popSize, double crossoverRate, double mutationRate, double elitismRate, int iterations, f f1, double lowerBound, double upperBound)
         {
             this.PopulationSize = popSize;
             this.CrossoverRate = crossoverRate;
