@@ -9,3 +9,6 @@ C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.csprojAssembly
 C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.csproj.CoreCompileInputs.cache
 C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.exe
 C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Debug\GA_CS.pdb
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\bin\Debug\GA_CS.exe.config
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\bin\Debug\GA_CS.exe
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\bin\Debug\GA_CS.pdb

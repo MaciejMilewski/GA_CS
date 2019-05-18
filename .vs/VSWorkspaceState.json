@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\GA_CS"
+    "\\GA_CS",
+    "\\GA_CS\\GA_CS"
   ],
-  "SelectedNode": "\\GA_CS\\GA_CS.sln",
+  "SelectedNode": "\\GA_CS\\GA_CS\\Chromosome.cs",
   "PreviewInSolutionExplorer": false
 }
