@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
+    <Compile Include="OptimizationFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
