@@ -14,8 +14,8 @@ namespace GA_CS
         public int PopulationSize { get; set; }
         public double CrossoverRate { get; set; }
         public double MutationrRate { get; set; }
-        //
         public Chromosome[] Population { get; set; }
+        public int GeneSize { get; set; }
         //
         public f FitnessFunction { get; set; }
         public double[] LowerLimit { get; set; }
@@ -24,12 +24,13 @@ namespace GA_CS
         public double[] BestGene { get; set; }
         //
         public int Iterations { get; set; }
-        private int it { get; set; }
-        private int evaluations { get; set; }
+        private int It { get; set; }
+        private int Evaluations { get; set; }
 
-        public GeneticAlgorithm (int popSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
+        public GeneticAlgorithm (int popSize, int geneSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
         {
             this.PopulationSize = popSize;
+            this.GeneSize = geneSize;
             this.CrossoverRate = crossoverRate;
             this.MutationrRate = mutationRate;
             this.Iterations = iterations;
@@ -37,6 +38,8 @@ namespace GA_CS
             this.LowerLimit = lowerBound;
             this.UpperLimit = upperBound;
             this.Population = InitializeArray<Chromosome>(popSize);
+            this.BestGene = new double[GeneSize];
+            this.Evaluations = PopulationSize;
         }
 
         T[] InitializeArray<T>(int length) where T : new()
@@ -52,12 +55,38 @@ namespace GA_CS
 
         public void GenerateInitialGenes()
         {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            BestFitness = double.MaxValue;
+            double[] tmp = new double[GeneSize];
+            
+            for (int i = 0; i < PopulationSize; i++)
+            {
+                for (int j = 0; j < GeneSize; j++)
+                {
+                    tmp[j] = RandomGene(j, random);
+                    Population[i].Genes[j] = tmp[j];
+                }
+                Population[i].Fitness = FitnessFunction(tmp[0], tmp[1]);
+                if (Population[i].Fitness < BestFitness)
+                {
+                    BestFitness = Population[i].Fitness;
 
+                    for (int k = 0; k < GeneSize; k++)
+                    {
+                        BestGene[k] = tmp[k];
+                    }
+                }
+            }
         }
 
         public void Initialize()
         {
 
+        }
+
+        public double RandomGene (int x, Random random)
+        {
+            return LowerLimit[x] + (UpperLimit[x] - LowerLimit[x]) * random.NextDouble();
         }
 
         public void PrintPopulation()
@@ -66,6 +95,7 @@ namespace GA_CS
                 c.PrintChromosome();
         }
 
+        // TODO add new params 
         public override string ToString()
         {
             return "Population size: " + PopulationSize + " Crossover rate: " +
