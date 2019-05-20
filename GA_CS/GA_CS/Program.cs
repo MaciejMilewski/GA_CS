@@ -9,6 +9,11 @@ namespace GA_CS
 {
     public class Program
     {
+        public static double[] lowerBound = { -5, -5 };
+        public static double[] upperBound = { +5, +5 };
+        public static double bestFitness = 0.0;
+        public static double[] bestGenes = { 0.0, 0.0 };
+
         public static void PrintTime(DateTime t1, DateTime t2)
         {
             string time = "Time = ";
@@ -17,7 +22,7 @@ namespace GA_CS
             time += timeSpan.Minutes.ToString("D2") + ":";
             time += timeSpan.Seconds.ToString("D2") + ".";
             time += timeSpan.Milliseconds.ToString("D3");
-            time += " (min:sec:ms) " + "\r\n";
+            time += " (min:sec.ms) " + "\r\n";
 
             Trace.WriteLine(time);
         }
@@ -32,9 +37,9 @@ namespace GA_CS
             ch1.PrintChromosome();
 
             f f1 = new f(OptimizationFunctions.Beale);
-            GeneticAlgorithm ga = new GeneticAlgorithm(10, 0.5, 0.4, 0.2, 50, f1, -5.0, 5.0);
+            GeneticAlgorithm ga = new GeneticAlgorithm(10, 0.5, 0.4, 50, f1, lowerBound, upperBound);
             Trace.Write("Beale: ");
-            Trace.Write(ga.fitnessFunction(3, 0.5).ToString());
+            Trace.Write(ga.FitnessFunction(3, 0.5).ToString());
             Trace.Write("\n");
             Trace.WriteLine(ga.ToString());
             

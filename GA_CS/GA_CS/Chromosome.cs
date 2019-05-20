@@ -7,13 +7,12 @@ using System.Diagnostics;
 
 namespace GA_CS
 {
-    public delegate double f(double x, double y);
+    
 
     public class Chromosome
     {
         public double[] Genes = new double[2];
-        //public Decimal Fitness { get; set; }
-        public f fitness;
+        public double Fitness { get; set; }
 
         public Chromosome(double gene_1, double gene_2)
         {
