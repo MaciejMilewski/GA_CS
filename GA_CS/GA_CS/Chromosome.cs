@@ -14,6 +14,8 @@ namespace GA_CS
         public double[] Genes = new double[2];
         public double Fitness { get; set; }
 
+        public Chromosome() { }
+
         public Chromosome(double gene_1, double gene_2)
         {
             this.Genes[0] = gene_1;

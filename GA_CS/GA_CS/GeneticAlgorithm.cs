@@ -11,7 +11,7 @@ namespace GA_CS
 
     public class GeneticAlgorithm
     {
-        public double PopulationSize { get; set; }
+        public int PopulationSize { get; set; }
         public double CrossoverRate { get; set; }
         public double MutationrRate { get; set; }
         //
@@ -27,7 +27,7 @@ namespace GA_CS
         private int it { get; set; }
         private int evaluations { get; set; }
 
-        public GeneticAlgorithm (double popSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
+        public GeneticAlgorithm (int popSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
         {
             this.PopulationSize = popSize;
             this.CrossoverRate = crossoverRate;
@@ -36,6 +36,18 @@ namespace GA_CS
             this.FitnessFunction = f1;
             this.LowerLimit = lowerBound;
             this.UpperLimit = upperBound;
+            this.Population = InitializeArray<Chromosome>(popSize);
+        }
+
+        T[] InitializeArray<T>(int length) where T : new()
+        {
+            T[] array = new T[length];
+            for (int i = 0; i < length; ++i)
+            {
+                array[i] = new T();
+            }
+
+            return array;
         }
 
         public void GenerateInitialGenes()
