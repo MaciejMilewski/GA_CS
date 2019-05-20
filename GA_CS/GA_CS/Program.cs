@@ -26,7 +26,7 @@ namespace GA_CS
         {
             Trace.WriteLine("\n");
             DateTime timeStart = DateTime.Now;
-            //
+            // Start
 
             Chromosome ch1 = new Chromosome(2.0, 2.4);
             ch1.PrintChromosome();
@@ -38,7 +38,7 @@ namespace GA_CS
             Trace.Write("\n");
             Trace.WriteLine(ga.ToString());
             
-            //
+            // End
             DateTime timeEnd = DateTime.Now;
             PrintTime(timeStart, timeEnd);
             Trace.WriteLine("\n");
