@@ -33,28 +33,34 @@ namespace GA_CS
             DateTime timeStart = DateTime.Now;
             // Start
 
-            Chromosome ch1 = new Chromosome(2.0, 2.4);
+            /*Chromosome ch1 = new Chromosome(2.0, 2.4);
             Chromosome ch2 = new Chromosome(1.0, 77.08);
             Chromosome ch3 = new Chromosome(3.33, -0.3);
-            /*ch1.PrintChromosome();
+            ch1.PrintChromosome();
             ch2.PrintChromosome();
             ch3.PrintChromosome();*/
 
-            f f1 = new f(OptimizationFunctions.Beale);
-            GeneticAlgorithm ga = new GeneticAlgorithm(3, 2, 0.5, 0.4, 50, f1, lowerBound, upperBound);
+            f f1 = new f(OptimizationFunctions.Ackley);
+            GeneticAlgorithm ga = new GeneticAlgorithm(6500, 2, 0.15, 0.14, 450, f1, lowerBound, upperBound);
+            ga.GenerateInitialGenes();
+            ga.Initialize();
+
             /*Trace.Write("Beale: ");
             Trace.Write(ga.FitnessFunction(3, 0.5).ToString());
             Trace.Write("\n");
-            Trace.WriteLine(ga.ToString());*/
+            Trace.WriteLine(ga.ToString());
             //ga.Population[0] = ch1;
             //ga.Population[1] = ch2;
             //ga.Population[2] = ch3;
             ga.GenerateInitialGenes();
-            ga.PrintPopulation();
-            
+            ga.PrintPopulation();*/
+
             // End
             DateTime timeEnd = DateTime.Now;
             PrintTime(timeStart, timeEnd);
+            Trace.Write("Best Fitness: " + ga.BestFitness.ToString() + "\r\n");
+            Trace.Write("Best X: " + ga.BestGene[0] + "\r\n");
+            Trace.Write("Best Y: " + ga.BestGene[1] + "\r\n");
             Trace.WriteLine("\n");
         }
     }

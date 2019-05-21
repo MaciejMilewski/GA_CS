@@ -66,7 +66,9 @@ namespace GA_CS
                     tmp[j] = RandomGene(j, random);
                     Population[i].Genes[j] = tmp[j];
                 }
+
                 Population[i].Fitness = FitnessFunction(tmp[0], tmp[1]);
+
                 if (Population[i].Fitness < BestFitness)
                 {
                     BestFitness = Population[i].Fitness;
@@ -81,7 +83,135 @@ namespace GA_CS
 
         public void Initialize()
         {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            It = 0;
 
+            while(It < Iterations)
+            {
+                bool end = false;
+                //SELECTION - tournament
+                List<int> parents = new List<int>();
+
+                for(int i = 0; i < GeneSize; i++)
+                {
+                    parents.Add(random.Next(PopulationSize));
+                }
+
+                double minimalFitness = Population[parents[0]].Fitness;
+                int minimalID = 0;
+
+                for(int i = 1; i < parents.Count; i++)
+                {
+                    if(Population[parents[i]].Fitness < minimalFitness)
+                    {
+                        minimalID = parents[i];
+                        minimalFitness = Population[parents[i]].Fitness;
+                    }
+                }
+
+                //MUTATION
+                double[] tmp1 = new double[GeneSize];
+                int ID = random.Next(GeneSize);
+
+                if(random.NextDouble() < MutationrRate)
+                {
+                    for(int i = 0; i < GeneSize; i++)
+                    {
+                        if (i != ID)
+                        {
+                            tmp1[i] = Population[minimalID].Genes[i];
+                        }
+                        else
+                        {
+                            int x = 0;
+                            if (random.Next(2) == 1)
+                                x = 1;
+                            else
+                                x = -1;
+
+                            tmp1[i] += x * random.NextDouble();
+
+                            if (tmp1[i] < LowerLimit[i])
+                            {
+                                tmp1[i] = LowerLimit[i];
+                            }
+                            else if (tmp1[i] > UpperLimit[i])
+                            {
+                                tmp1[i] = UpperLimit[i];
+                            }
+                        }
+                    }
+                    end = true;
+                }
+                //CROSSOVER
+                if(random.NextDouble() < CrossoverRate)
+                {
+                    double[] tmp2 = new double[GeneSize];
+
+                    for(int i = 0; i < GeneSize; i++)
+                    {
+                        tmp2[i] = Population[minimalID].Genes[i];
+                    }
+                    for(int i = ID; i < GeneSize; i++)
+                    {
+                        tmp1[i - ID] = tmp2[i];
+                    }
+                    for(int i = 0; i < ID; i++)
+                    {
+                        tmp1[i + ID] = tmp2[i];
+                    }
+
+                    end = true;
+                }
+
+                It++;
+
+                //ELITISM
+                if (end)
+                {
+                    Evaluations++;
+                    double childFitness = FitnessFunction(tmp1[0], tmp1[1]);
+
+                    double maximumFitness = double.MinValue;
+                    List<int> maximumID = new List<int>();
+
+                    for(int i = 0; i < PopulationSize; i++)
+                    {
+                        if(Population[i].Fitness > maximumFitness)
+                            maximumFitness = Population[i].Fitness;
+                    }
+
+                    for(int i = 0; i < PopulationSize; i++)
+                    {
+                        if(maximumFitness == Population[i].Fitness)
+                            maximumID.Add(i);
+                    }
+
+                    ID = random.Next(maximumID.Count);
+
+                    if(childFitness < maximumFitness)
+                    {
+                        Population[ID].Fitness = childFitness;
+
+                        for(int i = 0; i < GeneSize; i++)
+                        {
+                            Population[ID].Genes[i] = tmp1[i];
+                        }
+
+                        if(childFitness < BestFitness)
+                        {
+                            BestFitness = childFitness;
+
+                            for(int i = 0; i < GeneSize; i++)
+                            {
+                                BestGene[i] = tmp1[i];
+                            }
+                        }
+                    }
+                    //TODO: CHECK FOR COVERGENCE
+                    
+                }
+            }
         }
 
         public double RandomGene (int x, Random random)
