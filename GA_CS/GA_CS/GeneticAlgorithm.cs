@@ -167,7 +167,7 @@ namespace GA_CS
                 It++;
 
                 //ELITISM
-                if (end)
+                /*if (end)
                 {
                     Evaluations++;
                     double childFitness = FitnessFunction(tmp1[0], tmp1[1]);
@@ -208,9 +208,7 @@ namespace GA_CS
                             }
                         }
                     }
-                    //TODO: CHECK FOR COVERGENCE
-                    
-                }
+                }*/
             }
         }
 
