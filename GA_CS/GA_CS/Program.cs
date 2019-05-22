@@ -41,7 +41,7 @@ namespace GA_CS
             ch3.PrintChromosome();*/
 
             f f1 = new f(OptimizationFunctions.Ackley);
-            GeneticAlgorithm ga = new GeneticAlgorithm(6500, 2, 0.15, 0.14, 450, f1, lowerBound, upperBound);
+            GeneticAlgorithm ga = new GeneticAlgorithm(6500, 2, 0.05, 0.04, 450, f1, lowerBound, upperBound);
             ga.GenerateInitialGenes();
             ga.Initialize();
 
