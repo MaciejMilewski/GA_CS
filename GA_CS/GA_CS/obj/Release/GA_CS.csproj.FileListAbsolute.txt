@@ -1,0 +1,7 @@
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\bin\Release\GA_CS.exe.config
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\bin\Release\GA_CS.exe
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\bin\Release\GA_CS.pdb
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Release\GA_CS.csprojAssemblyReference.cache
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Release\GA_CS.csproj.CoreCompileInputs.cache
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Release\GA_CS.exe
+C:\Users\macie\Documents\GitHub\GA_CS\GA_CS\GA_CS\obj\Release\GA_CS.pdb
