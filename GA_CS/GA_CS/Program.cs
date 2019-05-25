@@ -9,10 +9,6 @@ namespace GA_CS
 {
     public class Program
     {
-        public static double[] lowerBound = { -5, -5 };
-        public static double[] upperBound = { +5, +5 };
-        public static double bestFitness = 0.0;
-        public static double[] bestGenes = { 0.0, 0.0 };
 
         public static void PrintTime(DateTime t1, DateTime t2)
         {
@@ -30,6 +26,7 @@ namespace GA_CS
         public static void Main()
         {
             Trace.WriteLine("\n");
+
             DateTime timeStart = DateTime.Now;
             f ackley = new f(OptimizationFunctions.Ackley);
 
@@ -37,12 +34,16 @@ namespace GA_CS
             ga.GeneticAlgorithmOptimization();
             ga.PrintResult();
 
-            //ParticleSwarm ps = new ParticleSwarm(ackley, 2, 1000, 8000, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
-            //ps.ParticleSwarmOptimization();
-            //ps.PrintResult();
+            DateTime timeEndGA = DateTime.Now;
+            PrintTime(timeStart, timeEndGA);
 
-            DateTime timeEnd = DateTime.Now;
-            PrintTime(timeStart, timeEnd);
+            ParticleSwarm ps = new ParticleSwarm(ackley, 2, 1000, 8000, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
+            ps.ParticleSwarmOptimization();
+            ps.PrintResult();
+
+            DateTime timeEndPSO = DateTime.Now;
+            PrintTime(timeStart, timeEndPSO);
+
             Trace.WriteLine("\n");
         }
     }

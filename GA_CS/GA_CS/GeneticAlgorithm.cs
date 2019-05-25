@@ -25,7 +25,6 @@ namespace GA_CS
         //
         private int Iterations { get; set; }
         private int It { get; set; }
-        private int Evaluations { get; set; }
         private bool end { get; set; }
         private int minimalID { get; set; }
         private int ID { get; set; }
@@ -44,7 +43,6 @@ namespace GA_CS
             this.UpperLimit = upperBound;
             this.Population = InitializeArray<Chromosome>(popSize);
             this.BestGene = new double[GeneSize];
-            this.Evaluations = PopulationSize;
             this.It = 0;
             this.end = false;
             this.minimalID = 0;
@@ -181,7 +179,6 @@ namespace GA_CS
             if(end)
             {
                 Random random = new Random(Guid.NewGuid().GetHashCode());
-                Evaluations++;
                 double childFitness = FitnessFunction(possibleX[0], possibleX[1]);
 
                 double maximumFitness = double.MinValue;
