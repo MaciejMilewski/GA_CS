@@ -34,9 +34,8 @@ namespace GA_CS
             f ackley = new f(OptimizationFunctions.Ackley);
 
             GeneticAlgorithm ga = new GeneticAlgorithm(65000, 2, 0.05, 0.04, 450, ackley, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
-            ga.GenerateInitialGenes();
-            ga.Initialize();
-            Trace.WriteLine("Fitness = " + ga.BestFitness.ToString());
+            ga.GeneticAlgorithmOptimization();
+            ga.PrintResult();
 
             //ParticleSwarm ps = new ParticleSwarm(ackley, 2, 1000, 8000, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
             //ps.ParticleSwarmOptimization();

@@ -132,7 +132,6 @@ namespace GA_CS
 
         public void ParticleSwarmOptimization()
         {
-            Random random = new Random(Guid.NewGuid().GetHashCode());
             InitializePSO();
 
             while (It < Iterations)
