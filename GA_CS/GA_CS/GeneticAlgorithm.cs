@@ -93,22 +93,13 @@ namespace GA_CS
         public void TournamentSelection()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
-            List<int> parents = new List<int>();
+            double minimalFitness = Population[random.Next(PopulationSize)].Fitness;
 
-            for (int i = 0; i < GeneSize; i++)
+            int i = random.Next(PopulationSize);
+            if (Population[i].Fitness < minimalFitness)
             {
-                parents.Add(random.Next(PopulationSize));
-            }
-
-            double minimalFitness = Population[parents[0]].Fitness;
-
-            for (int i = 1; i < parents.Count; i++)
-            {
-                if (Population[parents[i]].Fitness < minimalFitness)
-                {
-                    minimalID = parents[i];
-                    minimalFitness = Population[parents[i]].Fitness;
-                }
+                minimalID = i;
+                minimalFitness = Population[i].Fitness;
             }
         }
 

@@ -28,20 +28,25 @@ namespace GA_CS
             Trace.WriteLine("\n");
 
             DateTime timeStart = DateTime.Now;
-            f ackley = new f(OptimizationFunctions.Ackley);
 
-            GeneticAlgorithm ga = new GeneticAlgorithm(65000, 2, 0.05, 0.04, 450, ackley, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
+            f ackley = new f(OptimizationFunctions.Ackley);
+            f beale = new f(OptimizationFunctions.Beale);
+            f booth = new f(OptimizationFunctions.Booth);
+            f hoedlerTable = new f(OptimizationFunctions.HoedlerTable);
+
+            GeneticAlgorithm ga = new GeneticAlgorithm(120000, 2, 0.05, 0.04, 450, ackley, FunctionConstants.bealeLowerBound, FunctionConstants.bealeUpperBound);
             ga.GeneticAlgorithmOptimization();
             ga.PrintResult();
 
             DateTime timeEndGA = DateTime.Now;
             PrintTime(timeStart, timeEndGA);
 
-            ParticleSwarm ps = new ParticleSwarm(ackley, 2, 1000, 8000, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
+            ParticleSwarm ps = new ParticleSwarm(ackley, 2, 8000, 1000, FunctionConstants.ackleyLowerBound, FunctionConstants.ackleyUpperBound);
             ps.ParticleSwarmOptimization();
             ps.PrintResult();
 
             DateTime timeEndPSO = DateTime.Now;
+
             PrintTime(timeStart, timeEndPSO);
 
             Trace.WriteLine("\n");
