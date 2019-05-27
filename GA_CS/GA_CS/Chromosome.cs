@@ -28,7 +28,7 @@ namespace GA_CS
             Trace.Write(Genes[0].ToString());
             Trace.Write(" ");
             Trace.Write(Genes[1].ToString());
-            Trace.Write("]");
+            Trace.Write("] -> " + Fitness.ToString());
             Trace.Write("\n");
         }
     }

@@ -15,6 +15,7 @@ namespace GA_CS
         private double CrossoverRate { get; set; }
         private double MutationrRate { get; set; }
         private Chromosome[] Population { get; set; }
+        private Chromosome[] TemporaryPopulation { get; set; }
         private int GeneSize { get; set; }
         //
         private f FitnessFunction { get; set; }
@@ -25,13 +26,13 @@ namespace GA_CS
         //
         private int Iterations { get; set; }
         private int It { get; set; }
-        private bool action { get; set; }
         private int[] selected { get; set; }
         private int ID { get; set; }
         private double[] child { get; set; }
         private double[] parentsGenes { get; set; }
+        private int tmpID { get; set; }
 
-        public GeneticAlgorithm (int popSize, int geneSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
+        public GeneticAlgorithm(int popSize, int geneSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
         {
             this.PopulationSize = popSize;
             this.GeneSize = geneSize;
@@ -42,11 +43,12 @@ namespace GA_CS
             this.LowerLimit = lowerBound;
             this.UpperLimit = upperBound;
             this.Population = InitializeArray<Chromosome>(popSize);
+            this.TemporaryPopulation = InitializeArray<Chromosome>(popSize);
             this.BestGene = new double[GeneSize];
             this.It = 0;
-            this.action = false;
             this.selected = new int[2];
             this.ID = 0;
+            this.tmpID = 0;
             this.child = new double[GeneSize];
             this.parentsGenes = new double[GeneSize];
         }
@@ -62,14 +64,12 @@ namespace GA_CS
             return array;
         }
 
-        
-
         public void GenerateInitialGenes()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
             BestFitness = double.MaxValue;
             double[] tmp = new double[GeneSize];
-            
+
             for (int i = 0; i < PopulationSize; i++)
             {
                 for (int j = 0; j < GeneSize; j++)
@@ -111,6 +111,29 @@ namespace GA_CS
             }
         }
 
+        public void Crossover()
+        {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+
+            if (random.NextDouble() <= CrossoverRate)
+            {
+                for (int i = 0; i < GeneSize; i++)
+                {
+                    parentsGenes[i] = Population[selected[random.Next(GeneSize)]].Genes[i];
+                }
+
+                for (int i = ID; i < GeneSize; i++)
+                {
+                    child[i - ID] = parentsGenes[i];
+                }
+                for (int i = 0; i < ID; i++)
+                {
+                    child[i + ID] = parentsGenes[i];
+                }
+
+            }
+        }
+
         public void Mutation()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
@@ -141,86 +164,50 @@ namespace GA_CS
                     }
                 }
 
-                action = true;
             }
         }
 
-        public void Crossover()
+        public void InsertChild()
         {
-            Random random = new Random(Guid.NewGuid().GetHashCode());
-
-            if (random.NextDouble() <= CrossoverRate)
+            TemporaryPopulation[tmpID].Fitness = FitnessFunction(child[0], child[0]);
+            for (int i = 0; i < GeneSize; i++)
             {
+                TemporaryPopulation[tmpID].Genes[i] = child[i];
+            }
+            
+            if (TemporaryPopulation[tmpID].Fitness < BestFitness)
+            {
+                BestFitness = TemporaryPopulation[tmpID].Fitness;
+
                 for (int i = 0; i < GeneSize; i++)
                 {
-                    parentsGenes[i] = Population[selected[random.Next(GeneSize)]].Genes[i];
+                    BestGene[i] = child[i];
                 }
-
-                for (int i = ID; i < GeneSize; i++)
-                {
-                    child[i - ID] = parentsGenes[i];
-                }
-                for (int i = 0; i < ID; i++)
-                {
-                    child[i + ID] = parentsGenes[i];
-                }
-
-                action = true;
             }
 
-            It++;
-        }
-
-        public void Elitism()
-        {
-            if(action)
-            {
-                Random random = new Random(Guid.NewGuid().GetHashCode());
-                double childFitness = FitnessFunction(child[0], child[1]);
-
-                ID = random.Next(PopulationSize);
-
-                if (childFitness < Population[ID].Fitness)
-                {
-                    Population[ID].Fitness = childFitness;
-                    for (int i = 0; i < GeneSize; i++)
-                    {
-                        Population[ID].Genes[i] = child[i];
-                    }
-
-                    if (childFitness < BestFitness)
-                    {
-                        BestFitness = childFitness;
-
-                        for (int i = 0; i < GeneSize; i++)
-                        {
-                            BestGene[i] = child[i];
-                        }
-                    }
-                }
-
-                ID = 0;
-                action = false;
-            }
+            tmpID++;
         }
 
         public void GeneticAlgorithmOptimization()
         {
-            Random random = new Random(Guid.NewGuid().GetHashCode());
             GenerateInitialGenes();
 
-            while (It < Iterations)
+            while (It < Iterations) 
             {
-                for (int i = 1; i < random.Next(PopulationSize+1); i++)
+                for (int i = 0; i < PopulationSize; i++)
                 {
                     TournamentSelection();
                     Crossover();
                     Mutation();
-                }
-            }
+                    InsertChild(); 
+                } 
+                Array.Copy(TemporaryPopulation, Population, PopulationSize);
+                tmpID = 0;
+                It++;
+            } 
         }
 
-        public double RandomGene (int x, Random random)
+        public double RandomGene(int x, Random random)
         {
             return LowerLimit[x] + (UpperLimit[x] - LowerLimit[x]) * random.NextDouble();
         }
