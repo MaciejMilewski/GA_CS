@@ -26,8 +26,6 @@ namespace GA_CS
         private int Iterations { get; set; }
         private int It { get; set; }
         private bool action { get; set; }
-        private int selectedID1 { get; set; }
-        private int selectedID2 { get; set; }
         private int[] selected { get; set; }
         private int ID { get; set; }
         private double[] child { get; set; }
@@ -47,8 +45,6 @@ namespace GA_CS
             this.BestGene = new double[GeneSize];
             this.It = 0;
             this.action = false;
-            this.selectedID1 = 0;
-            this.selectedID2 = 0;
             this.selected = new int[2];
             this.ID = 0;
             this.child = new double[GeneSize];
@@ -65,6 +61,8 @@ namespace GA_CS
 
             return array;
         }
+
+        
 
         public void GenerateInitialGenes()
         {
@@ -180,21 +178,9 @@ namespace GA_CS
                 Random random = new Random(Guid.NewGuid().GetHashCode());
                 double childFitness = FitnessFunction(child[0], child[1]);
 
-                double maximumFitness = double.MinValue;
-                int maximumFitnessID = 0;
-
-                for (int i = 0; i < PopulationSize; i++)
-                {
-                    if (Population[i].Fitness > maximumFitness)
-                    {
-                        maximumFitness = Population[i].Fitness;
-                        maximumFitnessID = i;
-                    }
-                }
-
                 ID = random.Next(PopulationSize);
 
-                if (childFitness < maximumFitness)
+                if (childFitness < Population[ID].Fitness)
                 {
                     Population[ID].Fitness = childFitness;
                     for (int i = 0; i < GeneSize; i++)
@@ -221,17 +207,15 @@ namespace GA_CS
         public void GeneticAlgorithmOptimization()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
-
             GenerateInitialGenes();
 
             while (It < Iterations)
             {
-                for (int i = 1; i < random.Next(PopulationSize); i++)
+                for (int i = 1; i < random.Next(PopulationSize+1); i++)
                 {
                     TournamentSelection();
                     Crossover();
                     Mutation();
-                    Elitism();
                 }
             }
         }
