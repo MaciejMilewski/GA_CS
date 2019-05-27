@@ -34,7 +34,7 @@ namespace GA_CS
             f booth = new f(OptimizationFunctions.Booth);
             f hoedlerTable = new f(OptimizationFunctions.HoedlerTable);
 
-            GeneticAlgorithm ga = new GeneticAlgorithm(1000, 2, 1, 0.04, 50, ackley, FunctionConstants.bealeLowerBound, FunctionConstants.bealeUpperBound);
+            GeneticAlgorithm ga = new GeneticAlgorithm(200, 2, 1, 0.04, 30, ackley, FunctionConstants.bealeLowerBound, FunctionConstants.bealeUpperBound);
             ga.GeneticAlgorithmOptimization();
             ga.PrintResult();
 
