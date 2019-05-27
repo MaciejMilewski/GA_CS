@@ -25,11 +25,13 @@ namespace GA_CS
         //
         private int Iterations { get; set; }
         private int It { get; set; }
-        private bool end { get; set; }
-        private int minimalID { get; set; }
+        private bool action { get; set; }
+        private int selectedID1 { get; set; }
+        private int selectedID2 { get; set; }
+        private int[] selected { get; set; }
         private int ID { get; set; }
-        private double[] parent1 { get; set; }
-        private double[] parent2 { get; set; }
+        private double[] child { get; set; }
+        private double[] parentsGenes { get; set; }
 
         public GeneticAlgorithm (int popSize, int geneSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
         {
@@ -44,11 +46,13 @@ namespace GA_CS
             this.Population = InitializeArray<Chromosome>(popSize);
             this.BestGene = new double[GeneSize];
             this.It = 0;
-            this.end = false;
-            this.minimalID = 0;
+            this.action = false;
+            this.selectedID1 = 0;
+            this.selectedID2 = 0;
+            this.selected = new int[2];
             this.ID = 0;
-            this.parent1 = new double[GeneSize];
-            this.parent2 = new double[GeneSize];
+            this.child = new double[GeneSize];
+            this.parentsGenes = new double[GeneSize];
         }
 
         T[] InitializeArray<T>(int length) where T : new()
@@ -93,16 +97,20 @@ namespace GA_CS
         public void TournamentSelection()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
+            int x, y;
 
-            int i = random.Next(PopulationSize);
-            int j = random.Next(PopulationSize);
-
-            if (Population[j].Fitness < Population[i].Fitness)
+            for (int i = 0; i < 2; i++)
             {
-                minimalID = j;
+                x = random.Next(PopulationSize);
+                y = random.Next(PopulationSize);
+
+                if (Population[y].Fitness < Population[x].Fitness)
+                {
+                    selected[i] = y;
+                }
+                else
+                    selected[i] = x;
             }
-            else
-                minimalID = i;
         }
 
         public void Mutation()
@@ -112,27 +120,30 @@ namespace GA_CS
             if (random.NextDouble() <= MutationrRate)
             {
                 ID = random.Next(GeneSize);
+                int chosen = selected[random.Next(2)];
 
                 for (int i = 0; i < GeneSize; i++)
                 {
                     if (i != ID)
                     {
-                        parent1[i] = Population[minimalID].Genes[i];
+                        child[i] = Population[chosen].Genes[i];
                     }
                     else
                     {
-                        parent1[i] += (random.Next(0, 1) * 2 - 1) * random.NextDouble();
+                        child[i] += (random.Next(0, 1) * 2 - 1) * random.NextDouble();
 
-                        if (parent1[i] < LowerLimit[i])
+                        if (child[i] < LowerLimit[i])
                         {
-                            parent1[i] = LowerLimit[i];
+                            child[i] = LowerLimit[i];
                         }
-                        else if (parent1[i] > UpperLimit[i])
+                        else if (child[i] > UpperLimit[i])
                         {
-                            parent1[i] = UpperLimit[i];
+                            child[i] = UpperLimit[i];
                         }
                     }
                 }
+
+                action = true;
             }
         }
 
@@ -144,18 +155,19 @@ namespace GA_CS
             {
                 for (int i = 0; i < GeneSize; i++)
                 {
-                    parent2[i] = Population[minimalID].Genes[i];
+                    parentsGenes[i] = Population[selected[random.Next(GeneSize)]].Genes[i];
                 }
+
                 for (int i = ID; i < GeneSize; i++)
                 {
-                    parent1[i - ID] = parent2[i];
+                    child[i - ID] = parentsGenes[i];
                 }
                 for (int i = 0; i < ID; i++)
                 {
-                    parent1[i + ID] = parent2[i];
+                    child[i + ID] = parentsGenes[i];
                 }
 
-                end = true;
+                action = true;
             }
 
             It++;
@@ -163,35 +175,31 @@ namespace GA_CS
 
         public void Elitism()
         {
-            if(end)
+            if(action)
             {
                 Random random = new Random(Guid.NewGuid().GetHashCode());
-                double childFitness = FitnessFunction(parent1[0], parent1[1]);
+                double childFitness = FitnessFunction(child[0], child[1]);
 
                 double maximumFitness = double.MinValue;
-                List<int> maximumID = new List<int>();
+                int maximumFitnessID = 0;
 
                 for (int i = 0; i < PopulationSize; i++)
                 {
                     if (Population[i].Fitness > maximumFitness)
+                    {
                         maximumFitness = Population[i].Fitness;
+                        maximumFitnessID = i;
+                    }
                 }
 
-                for (int i = 0; i < PopulationSize; i++)
-                {
-                    if (maximumFitness == Population[i].Fitness)
-                        maximumID.Add(i);
-                }
-
-                ID = random.Next(maximumID.Count);
+                ID = random.Next(PopulationSize);
 
                 if (childFitness < maximumFitness)
                 {
                     Population[ID].Fitness = childFitness;
-
                     for (int i = 0; i < GeneSize; i++)
                     {
-                        Population[ID].Genes[i] = parent1[i];
+                        Population[ID].Genes[i] = child[i];
                     }
 
                     if (childFitness < BestFitness)
@@ -200,24 +208,31 @@ namespace GA_CS
 
                         for (int i = 0; i < GeneSize; i++)
                         {
-                            BestGene[i] = parent1[i];
+                            BestGene[i] = child[i];
                         }
                     }
                 }
-                end = false;
+
+                ID = 0;
+                action = false;
             }
         }
 
         public void GeneticAlgorithmOptimization()
         {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+
             GenerateInitialGenes();
 
             while (It < Iterations)
             {
-                TournamentSelection();
-                Mutation();
-                Crossover();
-                Elitism();
+                for (int i = 1; i < random.Next(PopulationSize); i++)
+                {
+                    TournamentSelection();
+                    Crossover();
+                    Mutation();
+                    Elitism();
+                }
             }
         }
 

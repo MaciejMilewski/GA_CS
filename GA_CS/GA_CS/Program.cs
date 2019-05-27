@@ -22,7 +22,7 @@ namespace GA_CS
 
             Trace.WriteLine(time);
         }
-        
+
         public static void Main()
         {
             Trace.WriteLine("\n");
@@ -48,6 +48,22 @@ namespace GA_CS
             DateTime timeEndPSO = DateTime.Now;
 
             PrintTime(timeStart, timeEndPSO);
+
+            //double[] p1 = new double[2]; p1[0] = 1; p1[1] = 2;
+            //double[] p2 = new double[2]; p2[0] = 3; p1[1] = 4;
+            //Random random = new Random(Guid.NewGuid().GetHashCode());
+            //int I = random.Next(2);
+            ////Trace.Write("p1 [" + p1[0].ToString() + " " + p1[1].ToString() + "] \n");
+            //Trace.Write("parent [" + p2[0].ToString() + " " + p2[1].ToString() + "] \n\n");
+            //for (int i = I; i < 2; i++)
+            //{
+            //    p1[i - I] = p2[i];
+            //}
+            //for (int i = 0; i < I; i++)
+            //{
+            //    p1[i + I] = p2[i];
+            //}
+            //Trace.Write("child [" + p1[0].ToString() + " " + p1[1].ToString() + "] \n");
 
             Trace.WriteLine("\n");
         }
