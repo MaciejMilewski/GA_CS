@@ -28,8 +28,8 @@ namespace GA_CS
         private bool end { get; set; }
         private int minimalID { get; set; }
         private int ID { get; set; }
-        private double[] possibleX { get; set; }
-        private double[] possibleY { get; set; }
+        private double[] parent1 { get; set; }
+        private double[] parent2 { get; set; }
 
         public GeneticAlgorithm (int popSize, int geneSize, double crossoverRate, double mutationRate, int iterations, f f1, double[] lowerBound, double[] upperBound)
         {
@@ -47,8 +47,8 @@ namespace GA_CS
             this.end = false;
             this.minimalID = 0;
             this.ID = 0;
-            this.possibleX = new double[GeneSize];
-            this.possibleY = new double[GeneSize];
+            this.parent1 = new double[GeneSize];
+            this.parent2 = new double[GeneSize];
         }
 
         T[] InitializeArray<T>(int length) where T : new()
@@ -95,10 +95,9 @@ namespace GA_CS
             Random random = new Random(Guid.NewGuid().GetHashCode());
 
             int i = random.Next(PopulationSize);
-            double minimalFitness = Population[i].Fitness;
             int j = random.Next(PopulationSize);
 
-            if (Population[j].Fitness < minimalFitness)
+            if (Population[j].Fitness < Population[i].Fitness)
             {
                 minimalID = j;
             }
@@ -109,37 +108,31 @@ namespace GA_CS
         public void Mutation()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
-            ID = random.Next(GeneSize);
 
-            if (random.NextDouble() < MutationrRate)
+            if (random.NextDouble() <= MutationrRate)
             {
+                ID = random.Next(GeneSize);
+
                 for (int i = 0; i < GeneSize; i++)
                 {
                     if (i != ID)
                     {
-                        possibleX[i] = Population[minimalID].Genes[i];
+                        parent1[i] = Population[minimalID].Genes[i];
                     }
                     else
                     {
-                        int x = 0;
-                        if (random.Next(2) == 1)
-                            x = 1;
-                        else
-                            x = -1;
+                        parent1[i] += (random.Next(0, 1) * 2 - 1) * random.NextDouble();
 
-                        possibleX[i] += x * random.NextDouble();
-
-                        if (possibleX[i] < LowerLimit[i])
+                        if (parent1[i] < LowerLimit[i])
                         {
-                            possibleX[i] = LowerLimit[i];
+                            parent1[i] = LowerLimit[i];
                         }
-                        else if (possibleX[i] > UpperLimit[i])
+                        else if (parent1[i] > UpperLimit[i])
                         {
-                            possibleX[i] = UpperLimit[i];
+                            parent1[i] = UpperLimit[i];
                         }
                     }
                 }
-                end = true;
             }
         }
 
@@ -147,19 +140,19 @@ namespace GA_CS
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
 
-            if (random.NextDouble() < CrossoverRate)
+            if (random.NextDouble() <= CrossoverRate)
             {
                 for (int i = 0; i < GeneSize; i++)
                 {
-                    possibleY[i] = Population[minimalID].Genes[i];
+                    parent2[i] = Population[minimalID].Genes[i];
                 }
                 for (int i = ID; i < GeneSize; i++)
                 {
-                    possibleX[i - ID] = possibleY[i];
+                    parent1[i - ID] = parent2[i];
                 }
                 for (int i = 0; i < ID; i++)
                 {
-                    possibleX[i + ID] = possibleY[i];
+                    parent1[i + ID] = parent2[i];
                 }
 
                 end = true;
@@ -173,7 +166,7 @@ namespace GA_CS
             if(end)
             {
                 Random random = new Random(Guid.NewGuid().GetHashCode());
-                double childFitness = FitnessFunction(possibleX[0], possibleX[1]);
+                double childFitness = FitnessFunction(parent1[0], parent1[1]);
 
                 double maximumFitness = double.MinValue;
                 List<int> maximumID = new List<int>();
@@ -198,7 +191,7 @@ namespace GA_CS
 
                     for (int i = 0; i < GeneSize; i++)
                     {
-                        Population[ID].Genes[i] = possibleX[i];
+                        Population[ID].Genes[i] = parent1[i];
                     }
 
                     if (childFitness < BestFitness)
@@ -207,10 +200,11 @@ namespace GA_CS
 
                         for (int i = 0; i < GeneSize; i++)
                         {
-                            BestGene[i] = possibleX[i];
+                            BestGene[i] = parent1[i];
                         }
                     }
                 }
+                end = false;
             }
         }
 
