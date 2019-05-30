@@ -21,7 +21,7 @@ namespace GA_CS
         private f FitnessFunction { get; set; }
         private double[] LowerLimit { get; set; }
         private double[] UpperLimit { get; set; }
-        private double BestFitness { get; set; }
+        public double BestFitness { get; set; }
         private double[] BestGene { get; set; }
         //
         private int Iterations { get; set; }
@@ -52,6 +52,8 @@ namespace GA_CS
             this.child = new double[GeneSize];
             this.parentsGenes = new double[GeneSize];
         }
+
+        public GeneticAlgorithm() { }
 
         T[] InitializeArray<T>(int length) where T : new()
         {
@@ -223,6 +225,13 @@ namespace GA_CS
             Trace.Write("Best value = " + BestFitness.ToString() + "\r\n");
             Trace.Write("Gene x value: " + BestGene[0].ToString() + "\r\n");
             Trace.Write("Gene y value: " + BestGene[1].ToString() + "\r\n");
+        }
+
+        public double GaResult()
+        {
+            double tmp = BestFitness;
+            BestFitness = 0;
+            return tmp;
         }
 
         public override string ToString()

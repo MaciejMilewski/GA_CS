@@ -16,7 +16,7 @@ namespace GA_CS
         private double[] LowerLimit { get; set; }
         private double[] UpperLimit { get; set; }
         private f Function { get; set; }
-        private double BestResult { get; set; }
+        public double BestResult { get; set; }
         private double[] BestParameters { get; set; }
 
         //
@@ -45,6 +45,8 @@ namespace GA_CS
             this.currentBestParameters = new double[Particles, Size];
             this.currentBestResult = new double[Particles];
         }
+
+        public ParticleSwarm() { }
 
         public void InitializePSO()
         {
@@ -160,6 +162,11 @@ namespace GA_CS
             Trace.Write("Best value: " + BestResult + "\r\n");
             Trace.Write("Best X: " + BestParameters[0] + "\r\n");
             Trace.Write("Best Y: " + BestParameters[1] + "\r\n");
+        }
+
+        public double PsResult()
+        {
+            return BestResult;
         }
 
     }
