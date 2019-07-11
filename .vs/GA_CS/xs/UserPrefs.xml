@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{4F5D94C3-01B7-4591-938C-0F6BBF42F3D7}|Default">
+  <MonoDevelop.Ide.ItemProperties.GA__CS PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="GA_CS/Program.cs">
+    <Files>
+      <File FileName="GA_CS/Program.cs" Line="73" Column="47" />
+      <File FileName="GA_CS/GeneticAlgorithm.cs" Line="1" Column="1" />
+      <File FileName="GA_CS/ParticleSwarm.cs" Line="1" Column="1" />
+      <File FileName="GA_CS/Chromosome.cs" Line="1" Column="1" />
+      <File FileName="GA_CS/OptimizationFunctions.cs" Line="1" Column="1" />
+      <File FileName="GA_CS/FunctionConstants.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="GA_CS" expanded="True">
+            <Node name="GA_CS" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
